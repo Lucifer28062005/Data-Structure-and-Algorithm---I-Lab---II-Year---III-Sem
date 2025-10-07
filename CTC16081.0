@@ -1,0 +1,70 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MaxArrSize 180000
+
+int mergeTwoSLL(short list1[], int list1len, short list2[], int list2len, short resultsArr[]) {
+    int i = 0, j = 0, k = 0;
+    while (i < list1len && j < list2len) {
+        if (list1[i] <= list2[j]) {
+            resultsArr[k++] = list1[i++];
+        } else {
+            resultsArr[k++] = list2[j++];
+        }
+    }
+    while (i < list1len) {
+        resultsArr[k++] = list1[i++];
+    }
+    while (j < list2len) {
+        resultsArr[k++] = list2[j++];
+    }
+    return k;
+}
+
+int readShortArray(char *argsArray, short arr[]) {
+    int col = 0;
+    char *token = strtok(argsArray, ",");
+    while (token != NULL) {
+        arr[col] = (short) atoi(token);
+        col++;
+        token = strtok(NULL, ",");
+    }
+    return col;
+}
+
+void printArrayElements(short resultsArr[], int resultsArrLength) {
+    int index;
+    for (index = 0; index < resultsArrLength; index++) {
+        printf("%d", resultsArr[index]);
+        if (index < resultsArrLength - 1) {
+            printf(",");
+        }
+    }
+    printf("\n");
+}
+
+int main(int argc, char *argv[]) {
+    if (argc != 3) {
+        printf("Usage: %s <list1> <list2>\n", argv[0]);
+        return 1;
+    }
+    
+    // Make copies of argv[1] and argv[2] because strtok modifies the string
+    char *list1Str = strdup(argv[1]);
+    char *list2Str = strdup(argv[2]);
+    
+    short list1[MaxArrSize];
+    short list2[MaxArrSize];
+    int list1len = readShortArray(list1Str, list1);
+    int list2len = readShortArray(list2Str, list2);
+    
+    short resultsArr[MaxArrSize];
+    int resultsArrLength = mergeTwoSLL(list1, list1len, list2, list2len, resultsArr);
+    
+    printArrayElements(resultsArr, resultsArrLength);
+    
+    free(list1Str);
+    free(list2Str);
+    return 0;
+}
