@@ -21,7 +21,6 @@ char * mergeSort(char *Arr[], int ArrLen) {
     if (temp == NULL) {
         return NULL;
     }
-
     int width;
     for (width = 1; width < ArrLen; width *= 2) {
         int left;
